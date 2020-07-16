@@ -33,9 +33,12 @@ Now lets look into what PID entails in detail.
 #### a.Proportional Control
 This part is primary driver of the controller that forces the system to take inversion action in response to the direction of error.This is modeled as 
 
-'''
+
+
 P = -Kp * cte
-'''
+
+
+
 Here Kp is a hyperparameter.As you can see mathematically as error increases the control input is reduced.Ideally, this alone should be enough.However there could be cases when the controller may come in towards the zero error condition quite fast, This will result in a slight overshoot. To account for this new error the controller will again reverse the polarity of signal. In general it would slowly diverge to minimum error condition after several oscillations if the error trajectory is a stable straight trajector.
 
 In self driving car perspective,If there is a high gain there will be continous minor oscillations similar to bang-bang control.However when there is a suddent lane change it can react faster albeit with minimum osillations.A correct gain will balance faster convergence and minimum oscillations.It should also be noted that very high gain can sometimes make the car go around in circles.
@@ -66,8 +69,10 @@ steer = -Kp * cte -Kd * d(cte) -Ki * I(cte)
 '''
 
 Good explaination of PID: [https://www.youtube.com/watch?v=wkfEZmsQqiA&t=594s]
+
+
 vehicle perspective : [https://www.youtube.com/watch?v=4Y7zG48uHRo&t=178s]
-![alt text][image1]
+
 
 
 ### 2. Model
@@ -116,7 +121,7 @@ This error is fed into a pid which controls the throttle.
 
 ### 3. Hyper parameter tuning
 
-I started by first setting constant throttle to 0.45.I began by first setting the P controller gain to 0.1 slowly increased until an stable oscillation is scene in the first section of track just before the first corner.Then started D controller gain at 100 times the gain value of P and slowly adjusted it until osillation is reduced.This approach was found in given link :[https://robotics.stackexchange.com/questions/167/what-are-good-strategies-for-tuning-pid-loops].Then integral was set to a minimum value of 0.0001 as higher value was inducing un stability to the simulation.By intution it shouldn't be necessary as the simulation is a perfect world and there shouldn't be any bias driven steady state error.However noticed a slight increase in performance at turns thus kept it at 0.0001 instead of zero.
+I started by first setting constant throttle to 0.45.I began by first setting the P controller gain to 0.1 slowly increased until an stable oscillation is scene in the first section of track just before the first corner.Then started D controller gain at 100 times the gain value of P and slowly adjusted it until osillation is reduced.This approach was found in given link :[https://robotics.stackexchange.com/questions/167/what-are-good-strategies-for-tuning-pid-loops] . Then integral was set to a minimum value of 0.0001 as higher value was inducing un stability to the simulation.By intution it shouldn't be necessary as the simulation is a perfect world and there shouldn't be any bias driven steady state error.However noticed a slight increase in performance at turns thus kept it at 0.0001 instead of zero.
 
 Now once steering PID is tuned , I removed the constant throttle and fed the throttle for throttle pid.Just like above procedure the gains were adjusted until maximum possible stability was seen.
 
