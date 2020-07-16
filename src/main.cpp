@@ -38,8 +38,8 @@ int main() {
   /**
    * TODO: Initialize the pid variable.
    */
-  pid.Init(0.15,0.0001,2.5);
-  pspeed.Init(0.15,0.0001,1.0);
+  pid.Init(0.15,0.0001,1);
+  pspeed.Init(0.5,0.0001,1.5);
   h.onMessage([&pid,&pspeed](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -70,10 +70,21 @@ int main() {
           // DEBUG
           pid.UpdateError(cte);
           steer_value = pid.TotalError();
-          pspeed.UpdateError(cte);
-          float throttle = 0.5 - fabs(pspeed.TotalError());
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value 
-                    << std::endl;
+          if(steer_value<-1)
+          {
+            steer_value=-1;
+
+          }
+          if(steer_value>1)
+          {
+            steer_value=1;
+          }
+          
+          float Target_speed = 40*(1.0-abs(steer_value))+10;
+          float scte = -(Target_speed - speed);
+          pspeed.UpdateError(scte);
+          float throttle = pspeed.TotalError();
+          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;

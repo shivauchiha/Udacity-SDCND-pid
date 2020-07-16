@@ -1,4 +1,4 @@
-# Install script for directory: /home/workspace/CarND-PID-Control-Project
+# Install script for directory: /home/shyam/Desktop/SDCND/Udacity-SDCND-pid
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/workspace/CarND-PID-Control-Project/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/shyam/Desktop/SDCND/Udacity-SDCND-pid/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
